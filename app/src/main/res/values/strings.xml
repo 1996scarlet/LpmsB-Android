@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LpmsMainActivity</string>
+    <string name="discovered_lpms_b_devices">Discovered LPMS-B Devices</string>
+    <string name="connected_lpms_b_devices">Connected LPMS-B Devices</string>
+    <string name="logging_status">Logging Status</string>
+    <string name="logging_is_off">Logging is OFF</string>
+    <string name="connection_control">Connection Control</string>
+    <string name="discover">Discover</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="logging">Logging</string>
+    <string name="start_logging">Start logging</string>
+    <string name="stop_logging">Stop logging</string>
+</resources>

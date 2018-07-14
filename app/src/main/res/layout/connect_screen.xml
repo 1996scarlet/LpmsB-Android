@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+	
+		<TextView android:id="@+id/Heading1"
+			android:text="@string/discovered_lpms_b_devices"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="5dp" />
+			
+		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/list"
+			android:layout_width="match_parent"
+			android:layout_height="100dp" />
+			
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@android:color/darker_gray"/>			
+			
+		<TextView android:id="@+id/Heading2"
+			android:text="@string/connected_lpms_b_devices"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="5dp" />
+			
+		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/connected_devices_list"
+			android:layout_width="match_parent"
+			android:layout_height="100dp" />			
+			
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@android:color/darker_gray"/>	
+
+		<TextView
+			android:text="@string/logging_status"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="5dp" />			
+			
+		<TextView android:id="@+id/logging_status"
+			android:text="@string/logging_is_off"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="5dp" />			
+			
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="25dp"				
+			android:background="@android:color/darker_gray"/>	
+						
+		<TextView android:id="@+id/Heading3"
+			android:text="@string/connection_control"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="5dp" />			
+			
+		<Button xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/button_discover"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/discover" />
+	
+		<Button xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/button_connect"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/connect" />
+			
+		<Button xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/button_disconnect"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/disconnect" />
+			
+		<View
+			android:layout_width="match_parent"
+			android:layout_marginTop="25dp"			
+			android:layout_height="1dp"
+			android:background="@android:color/darker_gray"/>			
+			
+		<TextView android:id="@+id/Heading"
+			android:text="@string/logging"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="5dp" />
+			
+		<Button xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/button_start_logging"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/start_logging" />
+
+		<Button xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/button_stop_logging"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"		
+			android:text="@string/stop_logging" />
+
+	</LinearLayout>
+</ScrollView>
