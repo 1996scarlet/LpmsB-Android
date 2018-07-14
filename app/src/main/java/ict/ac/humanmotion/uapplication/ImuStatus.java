@@ -2,10 +2,10 @@ package ict.ac.humanmotion.uapplication;
 
 public class ImuStatus {
 	boolean isLogging;
-	String logFileName = new String();
+	String logFileName;
 	boolean measurementStarted = false;
 	
-	public ImuStatus() {
+	ImuStatus() {
 		logFileName = "";
 		isLogging = false;
 	}

@@ -12,4 +12,8 @@
     <string name="logging">Logging</string>
     <string name="start_logging">Start logging</string>
     <string name="stop_logging">Stop logging</string>
+    <string name="accelerometer">Accelerometer</string>
+    <string name="gyroscope">Gyroscope</string>
+    <string name="magnetometer">Magnetometer</string>
+    <string name="logging_to">Logging to</string>
 </resources>

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.Objects;
 
 public class ConnectionFragment extends MyFragment implements OnClickListener {
     final int FRAGMENT_TAG = 0;
@@ -37,12 +38,12 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     String currentLpms = "";
     String currentConnectedLpms;
 
-    ArrayList<String> dcLpms = new ArrayList<String>();
+    final ArrayList<String> dcLpms = new ArrayList<String>();
     ArrayAdapter dcAdapter;
     ListView btList;
     boolean firstDc = true;
 
-    ArrayList<String> connectedDevicesLpms = new ArrayList<String>();
+    final ArrayList<String> connectedDevicesLpms = new ArrayList<String>();
     ArrayAdapter connectedDevicesAdapter;
     ListView connectedDevicesList;
     boolean firstConnectedDevice = true;
@@ -52,7 +53,7 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     boolean preLogStatus = false;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.connect_screen, container, false);
         Bundle args = getArguments();
         btAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -65,17 +66,17 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     }
 
     void prepareButtons() {
-        Button b = (Button) rootView.findViewById(R.id.button_discover);
+        Button b = rootView.findViewById(R.id.button_discover);
         b.setOnClickListener(this);
-        b = (Button) rootView.findViewById(R.id.button_connect);
+        b = rootView.findViewById(R.id.button_connect);
         b.setOnClickListener(this);
-        b = (Button) rootView.findViewById(R.id.button_disconnect);
+        b = rootView.findViewById(R.id.button_disconnect);
         b.setOnClickListener(this);
-        b = (Button) rootView.findViewById(R.id.button_start_logging);
+        b = rootView.findViewById(R.id.button_start_logging);
         b.setOnClickListener(this);
-        b = (Button) rootView.findViewById(R.id.button_stop_logging);
+        b = rootView.findViewById(R.id.button_stop_logging);
         b.setOnClickListener(this);
-        loggingStateText = (TextView) rootView.findViewById(R.id.logging_status);
+        loggingStateText = rootView.findViewById(R.id.logging_status);
     }
 
     @Override
@@ -104,13 +105,13 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     }
 
     public interface OnConnectListener {
-        public void onConnect(String address);
+        void onConnect(String address);
 
-        public void onDisconnect();
+        void onDisconnect();
 
-        public void startLogging();
+        void startLogging();
 
-        public void stopLogging();
+        void stopLogging();
     }
 
     void startBtConnect() {
@@ -128,7 +129,7 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
 
         synchronized (connectedDevicesLpms) {
             Log.e("lpms", "[ConnectionFragment] Remove from list: " + currentConnectedLpms);
-            if (connectedDevicesLpms.remove(currentConnectedLpms) == true) {
+            if (connectedDevicesLpms.remove(currentConnectedLpms)) {
                 connectedDevicesAdapter.notifyDataSetChanged();
 
                 if (connectedDevicesLpms.size() == 0) {
@@ -144,7 +145,7 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
                     }
                     connectedDevicesList.getChildAt(0).setBackgroundColor(Color.rgb(128, 64, 85));
                     currentConnectedLpms = (String) connectedDevicesList.getItemAtPosition(0);
-                    ((LpmsBMainActivity) getActivity()).onSensorSelectionChanged(currentConnectedLpms);
+                    ((LpmsBMainActivity) Objects.requireNonNull(getActivity())).onSensorSelectionChanged(currentConnectedLpms);
 
                     Log.e("lpms", "[ConnectionFragment] After disconnect selected: " + currentConnectedLpms);
                 }
@@ -165,10 +166,10 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
                 synchronized (dcLpms) {
                     if ((device.getName() != null) && (device.getName().length() > 0)) {
                         if (device.getName().contains("LPMSB2")) {
-                            for (ListIterator<String> it = dcLpms.listIterator(); it.hasNext(); ) {
-                                if (device.getAddress().equals(it.next())) return;
+                            for (String dcLpm : dcLpms) {
+                                if (device.getAddress().equals(dcLpm)) return;
                             }
-                            if (firstDc == true) {
+                            if (firstDc) {
 
                                 Log.d(TAG, "onReceive: ACTION_FOUND");
                                 dcLpms.clear();
@@ -190,9 +191,9 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     };
 
     public void prepareDiscoveredDevicesList() {
-        btList = (ListView) rootView.findViewById(R.id.list);
+        btList = rootView.findViewById(R.id.list);
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        getActivity().registerReceiver(mReceiver, filter);
+        Objects.requireNonNull(getActivity()).registerReceiver(mReceiver, filter);
         dcAdapter = new ArrayAdapter(getActivity(), R.layout.list_view_text_item, dcLpms);
         btList.setAdapter(dcAdapter);
         dcLpms.add("Press Discover button to start discovery..");
@@ -202,23 +203,22 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
         btList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (firstDc == true) return;
+                if (firstDc) return;
 
                 for (int a = 0; a < parent.getChildCount(); a++) {
                     parent.getChildAt(a).setBackgroundColor(Color.TRANSPARENT);
                 }
                 view.setBackgroundColor(Color.rgb(128, 64, 85));
 
-                int itemPosition = position;
                 currentLpms = (String) btList.getItemAtPosition(position);
             }
         });
     }
 
     public void prepareConnectedDevicesList() {
-        connectedDevicesList = (ListView) rootView.findViewById(R.id.connected_devices_list);
+        connectedDevicesList = rootView.findViewById(R.id.connected_devices_list);
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
-        getActivity().registerReceiver(mReceiver, filter);
+        Objects.requireNonNull(getActivity()).registerReceiver(mReceiver, filter);
         connectedDevicesAdapter = new ArrayAdapter(getActivity(), R.layout.list_view_text_item, connectedDevicesLpms);
         connectedDevicesList.setAdapter(connectedDevicesAdapter);
         connectedDevicesLpms.add("Press connect button to connect to device..");
@@ -228,19 +228,18 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
         connectedDevicesList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (firstConnectedDevice == true) return;
+                if (firstConnectedDevice) return;
 
                 for (int a = 0; a < parent.getChildCount(); a++) {
                     parent.getChildAt(a).setBackgroundColor(Color.TRANSPARENT);
                 }
                 view.setBackgroundColor(Color.rgb(128, 64, 85));
 
-                int itemPosition = position;
                 String itemValue = (String) connectedDevicesList.getItemAtPosition(position);
                 ((LpmsBMainActivity) getActivity()).onSensorSelectionChanged(itemValue);
 
                 currentConnectedLpms = itemValue;
-                Log.e("lpms", "[ConnectionFragment] Switched to pos " + itemPosition + " value " + itemValue);
+                Log.e("lpms", "[ConnectionFragment] Switched to pos " + position + " value " + itemValue);
             }
         });
     }
@@ -250,16 +249,16 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
             Log.e("lpms", "[ConnectionFragment] Connecion callback to device: " + device.getAddress());
 
             if (device.getName().equals("LPMS-B")) {
-                for (ListIterator<String> it = connectedDevicesLpms.listIterator(); it.hasNext(); ) {
-                    if (device.getAddress().equals(it.next())) {
+                for (String connectedDevicesLpm : connectedDevicesLpms) {
+                    if (device.getAddress().equals(connectedDevicesLpm)) {
                         Log.e("lpms", "[ConnectionFragment] Detected double device: " + device.getAddress());
                         return;
                     }
                 }
-                if (firstConnectedDevice == true) {
+                if (firstConnectedDevice) {
                     connectedDevicesLpms.clear();
                     connectedDevicesList.getChildAt(0).setBackgroundColor(Color.rgb(128, 64, 85));
-                    ((LpmsBMainActivity) getActivity()).onSensorSelectionChanged(device.getName());
+                    ((LpmsBMainActivity) Objects.requireNonNull(getActivity())).onSensorSelectionChanged(device.getName());
                     firstConnectedDevice = false;
                 }
                 connectedDevicesLpms.add(device.getAddress() /* + device.getImuId()*/);
@@ -296,41 +295,6 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
     public int getMyFragmentTag() {
         return FRAGMENT_TAG;
     }
@@ -340,11 +304,9 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
         if (preLogStatus != s.isLogging) {
             preLogStatus = s.isLogging;
 
-            if (s.isLogging == true) {
-                loggingStateText.setText("Logging to " + s.logFileName);
-            } else {
-                loggingStateText.setText("Logging is OFF");
-            }
+            if (s.isLogging)
+                loggingStateText.setText(String.format("%s%s", getString(R.string.logging_to), s.logFileName));
+            else loggingStateText.setText(R.string.logging_is_off);
         }
     }
 }
