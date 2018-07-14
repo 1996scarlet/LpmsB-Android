@@ -238,9 +238,9 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
 
     public void confirmConnected(BluetoothDevice device) {
         synchronized (connectedDevicesLpms) {
-            Log.e("lpms", "[ConnectionFragment] Connecion callback to device: " + device.getAddress());
+            Log.e("lpms", "[ConnectionFragment] Connecion callback to device: " + device.getAddress() + (device.getName()));
 
-            if (device.getName().equals("LPMS-B")) {
+            if (device.getName().contains("LPMSB2")) {
                 for (String connectedDevicesLpm : connectedDevicesLpms) {
                     if (device.getAddress().equals(connectedDevicesLpm)) {
                         Log.e("lpms", "[ConnectionFragment] Detected double device: " + device.getAddress());
@@ -253,6 +253,7 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
                     ((LpmsBMainActivity) Objects.requireNonNull(getActivity())).onSensorSelectionChanged(device.getName());
                     firstConnectedDevice = false;
                 }
+
                 connectedDevicesLpms.add(device.getAddress() /* + device.getImuId()*/);
                 connectedDevicesAdapter.notifyDataSetChanged();
 

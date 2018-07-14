@@ -1,9 +1,14 @@
 package ict.ac.humanmotion.uapplication
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.LegendRenderer
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 
 class MoreDataFragment : MyFragment() {
 
@@ -11,123 +16,175 @@ class MoreDataFragment : MyFragment() {
 
     val ARG_SECTION_NUMBER = "section_number"
 
+    private val MAX_DATA_POINT_NUM = 200
+
     private val FRAGMENT_TAG = 3
 
     override var myFragmentTag: Int = FRAGMENT_TAG
 
-    //    private GraphView quatGraph;
-    //    private GraphViewSeries quatSeries0;
-    //    private GraphViewSeries quatSeries1;
-    //    private GraphViewSeries quatSeries2;
-    //    private GraphViewSeries quatSeries3;
-    //
-    //    private GraphView eulerGraph;
-    //    private GraphViewSeries eulerSeries0;
-    //    private GraphViewSeries eulerSeries1;
-    //    private GraphViewSeries eulerSeries2;
-    //
-    //    private GraphView linAccGraph;
-    //    private GraphViewSeries linAccSeries0;
-    //    private GraphViewSeries linAccSeries1;
-    //    private GraphViewSeries linAccSeries2;
+    private lateinit var quatSeries0: LineGraphSeries<DataPoint>
+    private lateinit var quatSeries1: LineGraphSeries<DataPoint>
+    private lateinit var quatSeries2: LineGraphSeries<DataPoint>
+    private lateinit var quatSeries3: LineGraphSeries<DataPoint>
 
-    private var dataCount = 100
+    private lateinit var eulerSeries0: LineGraphSeries<DataPoint>
+    private lateinit var eulerSeries1: LineGraphSeries<DataPoint>
+    private lateinit var eulerSeries2: LineGraphSeries<DataPoint>
+
+    private lateinit var linAccSeries0: LineGraphSeries<DataPoint>
+    private lateinit var linAccSeries1: LineGraphSeries<DataPoint>
+    private lateinit var linAccSeries2: LineGraphSeries<DataPoint>
+
+    private var dataCount: Double = 0.0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.more_data_fragment_layout, container, false)
 
-        //        quatGraph = new LineGraphView(getActivity(), "");
-        //        eulerGraph = new LineGraphView(getActivity(), "");
-        //        linAccGraph = new LineGraphView(getActivity(), "");
-        //
-        //        GraphViewStyle gvStyle = new GraphViewStyle();
-        //        gvStyle.setTextSize(18);
-        //        gvStyle.setNumHorizontalLabels(10);
-        //
-        //        quatGraph.setGraphViewStyle(gvStyle);
-        //        eulerGraph.setGraphViewStyle(gvStyle);
-        //        linAccGraph.setGraphViewStyle(gvStyle);
-        //
-        //        LinearLayout quatLayout = (LinearLayout) rootView.findViewById(R.id.quatGraph);
-        //        LinearLayout eulerLayout = (LinearLayout) rootView.findViewById(R.id.eulerGraph);
-        //        LinearLayout linAccLayout = (LinearLayout) rootView.findViewById(R.id.linAccGraph);
-        //
-        //        quatLayout.addView(quatGraph);
-        //        eulerLayout.addView(eulerGraph);
-        //        linAccLayout.addView(linAccGraph);
-        //
-        //        quatSeries0 = new GraphViewSeries("W-Axis", new GraphViewSeriesStyle(Color.RED, 1), new GraphViewData[]{});
-        //        quatSeries1 = new GraphViewSeries("X-Axis", new GraphViewSeriesStyle(Color.GREEN, 1), new GraphViewData[]{});
-        //        quatSeries2 = new GraphViewSeries("Y-Axis", new GraphViewSeriesStyle(Color.BLUE, 1), new GraphViewData[]{});
-        //        quatSeries3 = new GraphViewSeries("Z-Axis", new GraphViewSeriesStyle(Color.YELLOW, 1), new GraphViewData[]{});
-        //
-        //        eulerSeries0 = new GraphViewSeries("X-Axis", new GraphViewSeriesStyle(Color.RED, 1), new GraphViewData[]{});
-        //        eulerSeries1 = new GraphViewSeries("Y-Axis", new GraphViewSeriesStyle(Color.GREEN, 1), new GraphViewData[]{});
-        //        eulerSeries2 = new GraphViewSeries("Z-Axis", new GraphViewSeriesStyle(Color.BLUE, 1), new GraphViewData[]{});
-        //
-        //        linAccSeries0 = new GraphViewSeries("X-Axis", new GraphViewSeriesStyle(Color.RED, 1), new GraphViewData[]{});
-        //        linAccSeries1 = new GraphViewSeries("Y-Axis", new GraphViewSeriesStyle(Color.GREEN, 1), new GraphViewData[]{});
-        //        linAccSeries2 = new GraphViewSeries("Z-Axis", new GraphViewSeriesStyle(Color.BLUE, 1), new GraphViewData[]{});
-        //
-        //        quatGraph.addSeries(quatSeries0);
-        //        quatGraph.addSeries(quatSeries1);
-        //        quatGraph.addSeries(quatSeries2);
-        //        quatGraph.addSeries(quatSeries3);
-        //
-        //        eulerGraph.addSeries(eulerSeries0);
-        //        eulerGraph.addSeries(eulerSeries1);
-        //        eulerGraph.addSeries(eulerSeries2);
-        //
-        //        linAccGraph.addSeries(linAccSeries0);
-        //        linAccGraph.addSeries(linAccSeries1);
-        //        linAccGraph.addSeries(linAccSeries2);
-        //
-        //        quatGraph.setScrollable(true);
-        //        quatGraph.setManualYAxisBounds(1.0, -1.0);
-        //
-        //        eulerGraph.setScrollable(true);
-        //        eulerGraph.setManualYAxisBounds(180.0, -180.0);
-        //
-        //        linAccGraph.setScrollable(true);
-        //        linAccGraph.setManualYAxisBounds(4.0, -4.0);
+        initQuaternion(rootView)
+        initEuler(rootView)
+        initLineAcc(rootView)
 
-        val xLabels = arrayOf("0", "20", "40", "60", "80", "100")
-        val yLabels0 = arrayOf("1.0", "0.5", "0", "-0.5", "-1.0")
-        val yLabels1 = arrayOf("180", "90", "0", "-90", "-180")
-        val yLabels2 = arrayOf("4", "2", "0", "-2", "-4")
-
-        //        quatGraph.setHorizontalLabels(xLabels);
-        //        quatGraph.setVerticalLabels(yLabels0);
-        //
-        //        eulerGraph.setHorizontalLabels(xLabels);
-        //        eulerGraph.setVerticalLabels(yLabels1);
-        //
-        //        linAccGraph.setHorizontalLabels(xLabels);
-        //        linAccGraph.setVerticalLabels(yLabels2);
+//        val xLabels = arrayOf("0", "20", "40", "60", "80", "100")
+//        val yLabels0 = arrayOf("1.0", "0.5", "0", "-0.5", "-1.0")
+//        val yLabels1 = arrayOf("180", "90", "0", "-90", "-180")
+//        val yLabels2 = arrayOf("4", "2", "0", "-2", "-4")
 
         return rootView
+    }
+
+    private fun initLineAcc(rootView: View) {
+
+        linAccSeries0 = LineGraphSeries()
+        linAccSeries1 = LineGraphSeries()
+        linAccSeries2 = LineGraphSeries()
+
+        linAccSeries0.apply {
+            title = "X-Axis"
+            color = Color.RED
+        }
+        linAccSeries1.apply {
+            title = "Y-Axis"
+            color = Color.GREEN
+        }
+        linAccSeries2.apply {
+            title = "Z-Axis"
+            color = Color.BLUE
+        }
+
+        val linAccGraph = rootView.findViewById<GraphView>(R.id.linAccGraph)
+        linAccGraph.apply {
+            addSeries(linAccSeries0)
+            addSeries(linAccSeries1)
+            addSeries(linAccSeries2)
+            viewport.apply {
+                legendRenderer.align = LegendRenderer.LegendAlign.TOP
+                legendRenderer.isVisible = true
+                setMinX(0.0)
+                setMinY(-4.0)
+                setMaxX(MAX_DATA_POINT_NUM.toDouble())
+                setMaxY(4.0)
+                isXAxisBoundsManual = true
+                isYAxisBoundsManual = true
+            }
+        }
+    }
+
+    private fun initEuler(rootView: View) {
+
+        eulerSeries0 = LineGraphSeries()
+        eulerSeries1 = LineGraphSeries()
+        eulerSeries2 = LineGraphSeries()
+
+        eulerSeries0.apply {
+            title = "X-Axis"
+            color = Color.RED
+        }
+        eulerSeries1.apply {
+            title = "Y-Axis"
+            color = Color.GREEN
+        }
+        eulerSeries2.apply {
+            title = "Z-Axis"
+            color = Color.BLUE
+        }
+
+        val eulerGraph = rootView.findViewById<GraphView>(R.id.eulerGraph)
+        eulerGraph.apply {
+            addSeries(eulerSeries0)
+            addSeries(eulerSeries1)
+            addSeries(eulerSeries2)
+            viewport.apply {
+                legendRenderer.isVisible = true
+                legendRenderer.align = LegendRenderer.LegendAlign.TOP
+                setMinX(0.0)
+                setMinY(-180.0)
+                setMaxX(MAX_DATA_POINT_NUM.toDouble())
+                setMaxY(180.0)
+                isXAxisBoundsManual = true
+                isYAxisBoundsManual = true
+            }
+        }
+    }
+
+    private fun initQuaternion(rootView: View) {
+
+        quatSeries0 = LineGraphSeries()
+        quatSeries1 = LineGraphSeries()
+        quatSeries2 = LineGraphSeries()
+        quatSeries3 = LineGraphSeries()
+
+        quatSeries0.apply {
+            title = "W-Axis"
+            color = Color.YELLOW
+        }
+        quatSeries1.apply {
+            title = "X-Axis"
+            color = Color.RED
+        }
+        quatSeries2.apply {
+            title = "Y-Axis"
+            color = Color.GREEN
+        }
+        quatSeries3.apply {
+            title = "Z-Axis"
+            color = Color.BLUE
+        }
+
+        val quatGraph = rootView.findViewById<GraphView>(R.id.quatGraph)
+        quatGraph.apply {
+            addSeries(quatSeries0)
+            addSeries(quatSeries1)
+            addSeries(quatSeries2)
+            addSeries(quatSeries3)
+            viewport.apply {
+                legendRenderer.isVisible = true
+                legendRenderer.align = LegendRenderer.LegendAlign.TOP
+                setMinX(0.0)
+                setMinY(-1.0)
+                setMaxX(MAX_DATA_POINT_NUM.toDouble())
+                setMaxY(1.0)
+                isXAxisBoundsManual = true
+                isYAxisBoundsManual = true
+            }
+        }
     }
 
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted) return
 
-        //        quatSeries0.appendData(new GraphViewData((double) dataCount, d.quat[0]), true, 200);
-        //        quatSeries1.appendData(new GraphViewData((double) dataCount, d.quat[1]), true, 200);
-        //        quatSeries2.appendData(new GraphViewData((double) dataCount, d.quat[2]), true, 200);
-        //        quatSeries3.appendData(new GraphViewData((double) dataCount, d.quat[3]), true, 200);
-        //
-        //        eulerSeries0.appendData(new GraphViewData((double) dataCount, d.euler[0]), true, 200);
-        //        eulerSeries1.appendData(new GraphViewData((double) dataCount, d.euler[1]), true, 200);
-        //        eulerSeries2.appendData(new GraphViewData((double) dataCount, d.euler[2]), true, 200);
-        //
-        //        linAccSeries0.appendData(new GraphViewData((double) dataCount, d.linAcc[0]), true, 200);
-        //        linAccSeries1.appendData(new GraphViewData((double) dataCount, d.linAcc[1]), true, 200);
-        //        linAccSeries2.appendData(new GraphViewData((double) dataCount, d.linAcc[2]), true, 200);
-        //
-        //        quatGraph.setViewPort(dataCount - 100, 100);
-        //        eulerGraph.setViewPort(dataCount - 100, 100);
-        //        linAccGraph.setViewPort(dataCount - 100, 100);
+        quatSeries0.appendData(DataPoint(dataCount, d.quat[0].toDouble()), true, MAX_DATA_POINT_NUM)
+        quatSeries1.appendData(DataPoint(dataCount, d.quat[1].toDouble()), true, MAX_DATA_POINT_NUM)
+        quatSeries2.appendData(DataPoint(dataCount, d.quat[2].toDouble()), true, MAX_DATA_POINT_NUM)
+        quatSeries3.appendData(DataPoint(dataCount, d.quat[3].toDouble()), true, MAX_DATA_POINT_NUM)
+
+        eulerSeries0.appendData(DataPoint(dataCount, d.euler[0].toDouble()), true, MAX_DATA_POINT_NUM)
+        eulerSeries1.appendData(DataPoint(dataCount, d.euler[1].toDouble()), true, MAX_DATA_POINT_NUM)
+        eulerSeries2.appendData(DataPoint(dataCount, d.euler[2].toDouble()), true, MAX_DATA_POINT_NUM)
+
+        linAccSeries0.appendData(DataPoint(dataCount, d.linAcc[0].toDouble()), true, MAX_DATA_POINT_NUM)
+        linAccSeries1.appendData(DataPoint(dataCount, d.linAcc[1].toDouble()), true, MAX_DATA_POINT_NUM)
+        linAccSeries2.appendData(DataPoint(dataCount, d.linAcc[2].toDouble()), true, MAX_DATA_POINT_NUM)
 
         dataCount++
     }

@@ -16,4 +16,7 @@
     <string name="gyroscope">Gyroscope</string>
     <string name="magnetometer">Magnetometer</string>
     <string name="logging_to">Logging to</string>
+    <string name="linear_acceleration">Linear Acceleration</string>
+    <string name="euler_angle">Euler Angle</string>
+    <string name="quaternion">Quaternion</string>
 </resources>

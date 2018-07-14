@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.LegendRenderer
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 
@@ -100,6 +101,7 @@ class DataFragment : MyFragment() {
             addSeries(accSeries2)
             viewport.apply {
                 legendRenderer.isVisible = true
+                legendRenderer.align = LegendRenderer.LegendAlign.TOP
                 setMinX(0.0)
                 setMinY(-4.0)
                 setMaxX(MAX_DATA_POINT_NUM.toDouble())
@@ -116,6 +118,7 @@ class DataFragment : MyFragment() {
             addSeries(gyrSeries2)
             viewport.apply {
                 legendRenderer.isVisible = true
+                legendRenderer.align = LegendRenderer.LegendAlign.TOP
                 setMinX(0.0)
                 setMinY(-2000.0)
                 setMaxX(MAX_DATA_POINT_NUM.toDouble())
@@ -132,6 +135,7 @@ class DataFragment : MyFragment() {
             addSeries(magSeries2)
             viewport.apply {
                 legendRenderer.isVisible = true
+                legendRenderer.align = LegendRenderer.LegendAlign.TOP
                 setMinX(0.0)
                 setMinY(-200.0)
                 setMaxX(MAX_DATA_POINT_NUM.toDouble())

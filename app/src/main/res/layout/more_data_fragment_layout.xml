@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical">
-		
-			<TextView android:id="@+id/Heading"
-				android:text="Quaternion"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:padding="5dp" />			
-		
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="300dip"
-				android:id="@+id/quatGraph" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-			<TextView android:id="@+id/Heading2"
-				android:text="Euler Angle"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="25dp"
-				android:padding="5dp" />				
-				
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="300dip"
-				android:id="@+id/eulerGraph" />				
-				
-			<TextView android:id="@+id/Heading3"
-				android:text="Linear Acceleration"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="25dp"
-				android:padding="5dp" />				
-				
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="fill_parent"
-				android:layout_height="300dip"
-				android:id="@+id/linAccGraph" />						
-	</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/Heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/quaternion" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/quatGraph"
+            android:layout_width="match_parent"
+            android:layout_height="300dip" />
+
+        <TextView
+            android:id="@+id/Heading2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:padding="5dp"
+            android:text="@string/euler_angle" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/eulerGraph"
+            android:layout_width="match_parent"
+            android:layout_height="300dip" />
+
+        <TextView
+            android:id="@+id/Heading3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:padding="5dp"
+            android:text="@string/linear_acceleration" />
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/linAccGraph"
+            android:layout_width="match_parent"
+            android:layout_height="300dip" />
+    </LinearLayout>
 </ScrollView>
