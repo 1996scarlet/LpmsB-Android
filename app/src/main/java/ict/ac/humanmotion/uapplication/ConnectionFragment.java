@@ -38,19 +38,17 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     String currentLpms = "";
     String currentConnectedLpms;
 
-    final ArrayList<String> dcLpms = new ArrayList<String>();
+    final ArrayList<String> dcLpms = new ArrayList<>();
     ArrayAdapter dcAdapter;
     ListView btList;
     boolean firstDc = true;
 
-    final ArrayList<String> connectedDevicesLpms = new ArrayList<String>();
+    final ArrayList<String> connectedDevicesLpms = new ArrayList<>();
     ArrayAdapter connectedDevicesAdapter;
     ListView connectedDevicesList;
     boolean firstConnectedDevice = true;
 
     TextView loggingStateText;
-
-    boolean preLogStatus = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,10 +70,6 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
         b.setOnClickListener(this);
         b = rootView.findViewById(R.id.button_disconnect);
         b.setOnClickListener(this);
-        b = rootView.findViewById(R.id.button_start_logging);
-        b.setOnClickListener(this);
-        b = rootView.findViewById(R.id.button_stop_logging);
-        b.setOnClickListener(this);
         loggingStateText = rootView.findViewById(R.id.logging_status);
     }
 
@@ -93,25 +87,23 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
             case R.id.button_disconnect:
                 onDisconnect();
                 break;
-
-            case R.id.button_start_logging:
-                connectListener.startLogging();
-                break;
-
-            case R.id.button_stop_logging:
-                connectListener.stopLogging();
-                break;
         }
+    }
+
+    @Override
+    public int getMyFragmentTag() {
+        return FRAGMENT_TAG;
+    }
+
+    @Override
+    public void setMyFragmentTag(int i) {
+
     }
 
     public interface OnConnectListener {
         void onConnect(String address);
 
         void onDisconnect();
-
-        void startLogging();
-
-        void stopLogging();
     }
 
     void startBtConnect() {
@@ -295,18 +287,6 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
     }
 
     @Override
-    public int getMyFragmentTag() {
-        return FRAGMENT_TAG;
-    }
-
-    @Override
     public void updateView(LpmsBData d, ImuStatus s) {
-        if (preLogStatus != s.isLogging) {
-            preLogStatus = s.isLogging;
-
-            if (s.isLogging)
-                loggingStateText.setText(String.format("%s%s", getString(R.string.logging_to), s.logFileName));
-            else loggingStateText.setText(R.string.logging_is_off);
-        }
     }
 }

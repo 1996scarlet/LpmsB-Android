@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 
 class ThreeDeeCubeFragment : MyFragment() {
+
     private val FRAGMENT_TAG = 1
+
+    override var myFragmentTag: Int = FRAGMENT_TAG
 
     private lateinit var glView: LpmsBSurfaceView
 
@@ -19,8 +22,6 @@ class ThreeDeeCubeFragment : MyFragment() {
 
         return glView
     }
-
-    override fun getMyFragmentTag(): Int = FRAGMENT_TAG
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted) return

@@ -223,70 +223,70 @@ public class LpmsBThread extends Thread {
         int o = 0;
         float r2d = 57.2958f;
 
-        mLpmsBData.imuId = imuId;
-        mLpmsBData.timestamp = convertRxbytesToFloat(o, rxBuffer);
+        mLpmsBData.setImuId(imuId);
+        mLpmsBData.setTimestamp(convertRxbytesToFloat(o, rxBuffer));
         o += 4;
-        mLpmsBData.frameNumber = frameCounter;
+        mLpmsBData.setFrameNumber(frameCounter);
         frameCounter++;
 
         if (isGetGyroscope == true) {
-            mLpmsBData.gyr[0] = convertRxbytesToFloat(o, rxBuffer) * r2d;
+            mLpmsBData.getGyr()[0] = convertRxbytesToFloat(o, rxBuffer) * r2d;
             o += 4;
-            mLpmsBData.gyr[1] = convertRxbytesToFloat(o, rxBuffer) * r2d;
+            mLpmsBData.getGyr()[1] = convertRxbytesToFloat(o, rxBuffer) * r2d;
             o += 4;
-            mLpmsBData.gyr[2] = convertRxbytesToFloat(o, rxBuffer) * r2d;
+            mLpmsBData.getGyr()[2] = convertRxbytesToFloat(o, rxBuffer) * r2d;
             o += 4;
         }
 
         if (isGetAcceleration == true) {
-            mLpmsBData.acc[0] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getAcc()[0] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.acc[1] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getAcc()[1] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.acc[2] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getAcc()[2] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
         }
 
         if (isGetMagnetometer == true) {
-            mLpmsBData.mag[0] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getMag()[0] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.mag[1] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getMag()[1] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.mag[2] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getMag()[2] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
         }
 
         if (isGetQuaternion == true) {
-            mLpmsBData.quat[0] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getQuat()[0] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.quat[1] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getQuat()[1] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.quat[2] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getQuat()[2] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.quat[3] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getQuat()[3] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
         }
 
         if (isGetEulerAngler == true) {
-            mLpmsBData.euler[0] = convertRxbytesToFloat(o, rxBuffer) * r2d;
+            mLpmsBData.getEuler()[0] = convertRxbytesToFloat(o, rxBuffer) * r2d;
             o += 4;
-            mLpmsBData.euler[1] = convertRxbytesToFloat(o, rxBuffer) * r2d;
+            mLpmsBData.getEuler()[1] = convertRxbytesToFloat(o, rxBuffer) * r2d;
             o += 4;
-            mLpmsBData.euler[2] = convertRxbytesToFloat(o, rxBuffer) * r2d;
+            mLpmsBData.getEuler()[2] = convertRxbytesToFloat(o, rxBuffer) * r2d;
             o += 4;
         }
 
         if (isGetLinearAcceleration == true) {
-            mLpmsBData.linAcc[0] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getLinAcc()[0] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.linAcc[1] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getLinAcc()[1] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
-            mLpmsBData.linAcc[2] = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.getLinAcc()[2] = convertRxbytesToFloat(o, rxBuffer);
             o += 4;
         }
 
         if (isGetPressure == true) {
-            mLpmsBData.pressure = convertRxbytesToFloat(o, rxBuffer);
+            mLpmsBData.setPressure(convertRxbytesToFloat(o, rxBuffer));
             o += 4;
         }
 

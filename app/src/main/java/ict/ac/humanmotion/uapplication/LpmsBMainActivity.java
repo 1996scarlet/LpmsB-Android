@@ -16,18 +16,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,11 +28,6 @@ import java.util.TimerTask;
 public class LpmsBMainActivity extends FragmentActivity implements ActionBar.TabListener, MyFragment.MyFragmentListener, ConnectionFragment.OnConnectListener {
     Timer mTimer;
 
-    TextView gyrXText, gyrYText, gyrZText;
-    TextView accXText, accYText, accZText;
-    TextView magXText, magYText, magZText;
-    TextView quatXText, quatYText, quatZText, quatWText;
-    TextView eulerXText, eulerYText, eulerZText;
     BluetoothAdapter btAdapter;
     boolean isLpmsBConnected = false;
 
@@ -51,16 +39,12 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
     private int updateRate = 25;
     private boolean getImage = true;
 
-    List<LpmsBThread> lpmsList = new ArrayList<LpmsBThread>();
+    final List<LpmsBThread> lpmsList = new ArrayList<>();
     LpmsBThread lpmsB;
 
     private Map<Integer, String> mFragmentMap = new HashMap<Integer, String>();
     private AppSectionsPagerAdapter mAppSectionsPagerAdapter;
     ViewPager mViewPager;
-
-    OutputStreamWriter logFileWriter;
-    boolean isLoggingStarted = false;
-    FileOutputStream logFileStream;
 
     boolean stopPollThread = false;
 
@@ -111,8 +95,7 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
         stopPollThread = true;
 
         synchronized (lpmsList) {
-            for (ListIterator<LpmsBThread> it = lpmsList.listIterator(); it.hasNext(); ) {
-                LpmsBThread e = it.next();
+            for (LpmsBThread e : lpmsList) {
                 e.close();
             }
         }
@@ -162,7 +145,7 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(16);
 
@@ -190,10 +173,7 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
 
         MyFragment statusFragment = (MyFragment) getSupportFragmentManager().findFragmentByTag(mFragmentMap.get(key));
 
-        if (statusFragment != null) {
-            statusFragment.updateView(d, s);
-        } else {
-        }
+        if (statusFragment != null) statusFragment.updateView(d, s);
     }
 
     void stopUpdateFragments() {
@@ -209,16 +189,15 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
 
     public class DataAnalysisThread implements Runnable {
         public void run() {
-            while (stopPollThread == false) {
+            while (!stopPollThread) {
                 synchronized (lpmsList) {
-                    for (ListIterator<LpmsBThread> it = lpmsList.listIterator(); it.hasNext(); ) {
-                        LpmsBThread e = it.next();
+                    for (LpmsBThread e : lpmsList) {
                         LpmsBData d = new LpmsBData();
-                        while (e.hasNewData() == true) {
+                        while (e.hasNewData()) {
                             d = e.getLpmsBData();
                             if (lpmsB.getAddress().equals(e.getAddress()))
                                 imuData = new LpmsBData(d);
-                            logLpmsData(new LpmsBData(d));
+
                         }
                     }
                 }
@@ -254,8 +233,8 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
         int id = 0;
 
         synchronized (lpmsList) {
-            for (ListIterator<LpmsBThread> it = lpmsList.listIterator(); it.hasNext(); ) {
-                if (address == it.next().getAddress()) {
+            for (LpmsBThread aLpmsList : lpmsList) {
+                if (address.equals(aLpmsList.getAddress())) {
                     Toast.makeText(getBaseContext(), address + " is already connected.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -265,11 +244,11 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
             lpmsB = new LpmsBThread(btAdapter);
 
             lpmsB.setAcquisitionParameters(true, true, true, true, true, true, true);
-            if (lpmsB.connect(address, id) == true) {
+            if (lpmsB.connect(address, id)) {
                 lpmsList.add(lpmsB);
 
                 isLpmsBConnected = true;
-                imuStatus.measurementStarted = true;
+                imuStatus.setMeasurementStarted(true);
 
                 Toast.makeText(getBaseContext(), "Connected to " + address, Toast.LENGTH_SHORT).show();
 
@@ -284,66 +263,13 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
 
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    public void startLogging() {
-        if (isExternalStorageWritable() == true) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                String currentDateandTime = sdf.format(new Date());
-                File logFile = new File("/sdcard/LpResearch/DataLog" + currentDateandTime + ".csv");
-                logFile.createNewFile();
-                logFileStream = new FileOutputStream(logFile);
-                logFileWriter = new OutputStreamWriter(logFileStream);
-                Toast.makeText(getBaseContext(), "Logging to " + logFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-                isLoggingStarted = true;
-                logFileWriter.append("SensorId, TimeStamp (s), FrameNumber, AccX (g), AccY (g), AccZ (g), GyroX (deg/s), GyroY (deg/s), GyroZ (deg/s), MagX (uT), MagY (uT), MagZ (uT), EulerX (deg), EulerY (deg), EulerZ (deg), QuatW, QuatX, QuatY, QuatZ, LinAccX (m/s^2), LinAccY (m/s^2), LinAccZ (m/s^2), Pressure (mPa)\n");
-                imuStatus.isLogging = true;
-                imuStatus.logFileName = logFile.getAbsolutePath();
-            } catch (Exception e) {
-                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(getBaseContext(), "Couldn't write to external storage. Please detach device from PC.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void logLpmsData(LpmsBData d) {
-        if (isLoggingStarted == true) {
-            try {
-                synchronized (logFileWriter) {
-                    logFileWriter.append(d.imuId + ", " + d.timestamp + ", " + d.frameNumber + ", " + d.gyr[0] + ", " + d.gyr[1] + ", " + d.gyr[2] + ", " + d.acc[0] + ", " + d.acc[1] + ", " + d.acc[2] + ", " + d.mag[0] + ", " + d.mag[1] + ", " + d.mag[2] + ", " + d.quat[0] + ", " + d.quat[1] + ", " + d.quat[2] + ", " + d.quat[3] + ", " + d.euler[0] + ", " + d.euler[1] + ", " + d.euler[2] + ", " + d.linAcc[0] + ", " + d.linAcc[1] + ", " + d.linAcc[2] + ", " + d.pressure + "\n");
-                }
-            } catch (Exception e) {
-                Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    public void stopLogging() {
-        if (isLoggingStarted == false) return;
-        try {
-            synchronized (logFileWriter) {
-                logFileWriter.close();
-            }
-            logFileStream.close();
-            isLoggingStarted = false;
-            imuStatus.isLogging = false;
-            Toast.makeText(getBaseContext(), "Logging stopped", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void onSensorSelectionChanged(String address) {
         synchronized (lpmsList) {
-            for (ListIterator<LpmsBThread> it = lpmsList.listIterator(); it.hasNext(); ) {
-                LpmsBThread e = it.next();
-
+            for (LpmsBThread e : lpmsList) {
                 if (address.equals(e.getAddress())) {
                     lpmsB = e;
                     Log.e("lpms", "[LpmsBMainActivity] In main activity: " + lpmsB.getAddress());
@@ -359,16 +285,14 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
     @Override
     public void onDisconnect() {
         synchronized (lpmsList) {
-            for (ListIterator<LpmsBThread> it = lpmsList.listIterator(); it.hasNext(); ) {
-                LpmsBThread e = it.next();
-
+            for (LpmsBThread e : lpmsList) {
                 if (lpmsB.getAddress().equals(e.getAddress())) {
                     Toast.makeText(getBaseContext(), "Disconnected " + e.getAddress(), Toast.LENGTH_SHORT).show();
 
                     e.close();
                     lpmsList.remove(e);
                     if (lpmsList.size() == 0) {
-                        imuStatus.measurementStarted = false;
+                        imuStatus.setMeasurementStarted(false);
                     }
 
                     return;

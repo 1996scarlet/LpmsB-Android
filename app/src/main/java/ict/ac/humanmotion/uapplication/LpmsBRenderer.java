@@ -1,5 +1,6 @@
 package ict.ac.humanmotion.uapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -250,7 +251,7 @@ public class LpmsBRenderer implements GLSurfaceView.Renderer {
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
 
-        InputStream istream = context.getResources().openRawResource(R.drawable.lpmslogo);
+        @SuppressLint("ResourceType") InputStream istream = context.getResources().openRawResource(R.drawable.lpmslogo);
         Bitmap bitmap;
 
         try {

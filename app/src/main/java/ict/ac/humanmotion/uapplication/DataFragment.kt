@@ -11,8 +11,11 @@ import com.jjoe64.graphview.series.LineGraphSeries
 
 class DataFragment : MyFragment() {
 
+
     private val TAG = "DataFragment"
     private val FRAGMENT_TAG = 2
+
+    override var myFragmentTag: Int = FRAGMENT_TAG
 
     private val MAX_DATA_POINT_NUM = 200
 
@@ -141,7 +144,8 @@ class DataFragment : MyFragment() {
         return rootView
     }
 
-    override fun getMyFragmentTag(): Int = FRAGMENT_TAG
+
+//    override fun getMyFragmentTag(): Int = FRAGMENT_TAG
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted) return

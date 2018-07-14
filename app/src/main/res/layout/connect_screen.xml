@@ -88,23 +88,23 @@
 			android:layout_height="1dp"
 			android:background="@android:color/darker_gray"/>			
 			
-		<TextView android:id="@+id/Heading"
-			android:text="@string/logging"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="5dp" />
-			
-		<Button xmlns:android="http://schemas.android.com/apk/res/android"
-			android:id="@+id/button_start_logging"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/start_logging" />
+		<!--<TextView android:id="@+id/Heading"-->
+			<!--android:text="@string/logging"-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:padding="5dp" />-->
+			<!---->
+		<!--<Button xmlns:android="http://schemas.android.com/apk/res/android"-->
+			<!--android:id="@+id/button_start_logging"-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:layout_height="wrap_content"-->
+			<!--android:text="@string/start_logging" />-->
 
-		<Button xmlns:android="http://schemas.android.com/apk/res/android"
-			android:id="@+id/button_stop_logging"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"		
-			android:text="@string/stop_logging" />
+		<!--<Button xmlns:android="http://schemas.android.com/apk/res/android"-->
+			<!--android:id="@+id/button_stop_logging"-->
+			<!--android:layout_width="match_parent"-->
+			<!--android:layout_height="wrap_content"		-->
+			<!--android:text="@string/stop_logging" />-->
 
 	</LinearLayout>
 </ScrollView>
