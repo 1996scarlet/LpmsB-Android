@@ -19,4 +19,6 @@
     <string name="linear_acceleration">Linear Acceleration</string>
     <string name="euler_angle">Euler Angle</string>
     <string name="quaternion">Quaternion</string>
+    <string name="measuring">measuring</string>
+    <string name="stopped">stopped</string>
 </resources>

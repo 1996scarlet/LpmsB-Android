@@ -289,5 +289,6 @@ public class ConnectionFragment extends MyFragment implements OnClickListener {
 
     @Override
     public void updateView(LpmsBData d, ImuStatus s) {
+
     }
 }

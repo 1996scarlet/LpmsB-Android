@@ -33,4 +33,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.jjoe64:graphview:4.2.2'
 //    implementation 'androidx.core:core-ktx:1.0.0-beta01'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
