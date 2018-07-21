@@ -15,10 +15,12 @@ class AppSectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         1 -> ThreeDeeCubeFragment()
 
+        4 -> HumanMotionFragment()
+
         else -> DataFragment()
     }
 
-    override fun getCount(): Int = 4
+    override fun getCount(): Int = 5
 
     override fun getPageTitle(position: Int): CharSequence? = when (position) {
         0 -> "Connection"
@@ -28,6 +30,8 @@ class AppSectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         2 -> "Raw Data"
 
         1 -> "3D Cube"
+
+        4 -> "Human Motion"
 
         else -> "null"
     }
