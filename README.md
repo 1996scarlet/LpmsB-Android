@@ -14,7 +14,7 @@ So I wrote a new open source demo.
 
 ## Cautions
 > 0.   Please give this app bluetooth permission
-> 1.   You may need to pair Lpms-B before open he app
+> 1.   You may need to pair Lpms-B before open the app
 
 ## Flask Server Example
 
@@ -42,6 +42,12 @@ The project dependences are as follows.
 * [RxJava2](https://github.com/ReactiveX/RxJava) to make HTTP request and response async.
 * [Retrofit2](https://github.com/square/retrofit) to build local HTTP function interface.
 * [GraphView](https://github.com/jjoe64/GraphView) to show real-time data in chart.
+
+## JSON Example
+* Single LpmsData(X-float,I-integer,L-long)
+`{"acc":[X,X,X],"euler":[X,X,X],"frameNumber":I,"gyr":[X,X,X],"imuId":I,"linAcc":[X,X,X],"mag":[X,X,X],"pressure":X,"quat":[X,X,X,X],"timestamp":L}`
+* List of LpmsData
+`[{Single LpmsData},{Single LpmsData},{Single LpmsData}...]`
 
 ## FAQ
 ...
