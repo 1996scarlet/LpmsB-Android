@@ -16,5 +16,25 @@ So I wrote a new open source demo.
 > 0.   Please give this app bluetooth permission
 > 1.   You may need to pair Lpms-B before open he app
 
+## Flask Server Example
+
+    from flask import Flask
+    from flask import request
+
+    app = Flask(__name__)
+
+    @app.route('/save', methods=['POST'])
+    def save():
+        print (request.form.get('result','OKK'))
+        return request.form.get('result','OKK')
+
+    if __name__ == '__main__':
+        app.run(port=23456, host='192.168.0.2')
+
+## Response Data Type
+* In Android source code, we use Kotlin `MutableList<LpmsData>` to save temp result.
+* When the HTTP request is going to launch, we use `GSON.toJson()` function to convert temp result to formatted string.
+* If you don't know how to parse JSON or unfamiliar with it, please check [this link](http://www.json.org/).
+
 ## FAQ
 ...
