@@ -36,5 +36,12 @@ So I wrote a new open source demo.
 * When the HTTP request is going to launch, we use `GSON.toJson()` function to convert temp result to formatted string.
 * If you don't know how to parse JSON or unfamiliar with it, please check [this link](http://www.json.org/).
 
+## Project Dependences
+The project dependences are as follows.
+* [OKHTTP3](https://github.com/square/okhttp) to replace Android default HTTP client.
+* [RxJava2](https://github.com/ReactiveX/RxJava) to make HTTP request and response async.
+* [Retrofit2](https://github.com/square/retrofit) to build local HTTP function interface.
+* [GraphView](https://github.com/jjoe64/GraphView) to show real-time data in chart.
+
 ## FAQ
 ...
