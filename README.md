@@ -34,7 +34,7 @@ So I wrote a new open source demo.
 ## Response Data Type
 * In Android source code, we use Kotlin `MutableList<LpmsData>` to save temp result.
 * When the HTTP request is going to launch, we use `GSON.toJson()` function to convert temp result to formatted string.
-* If you don't know how to parse JSON or unfamiliar with it, please check [this link](http://www.json.org/).
+* If you don't know how to parse JSON or unfamiliar with it, please check [JSON.org](http://www.json.org/).
 
 ## Project Dependences
 The project dependences are as follows.
