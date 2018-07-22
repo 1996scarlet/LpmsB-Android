@@ -1,67 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ToggleButton
+        android:checked="false"
+        android:textOn="@string/measuring"
+        android:textOff="@string/stopped"
+        android:id="@+id/toggle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <ToggleButton
-            android:checked="false"
-            android:textOn="@string/measuring"
-            android:textOff="@string/stopped"
-            android:id="@+id/toggle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+</android.support.constraint.ConstraintLayout>
 
-        <!--<TextView-->
-            <!--android:id="@+id/Heading"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="5dp"-->
-            <!--android:text="@string/accelerometer" />-->
 
-        <!--<com.jjoe64.graphview.GraphView-->
-            <!--android:id="@+id/accGraph"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="300dip"-->
-            <!--android:layout_weight="1" />-->
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-        <!--<LinearLayout-->
-        <!--android:orientation="vertical"-->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="300dip"-->
-        <!--android:layout_weight="1"				-->
-        <!--android:id="@+id/accGraph" />		-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/Heading2"-->
+        <!--<ToggleButton-->
+            <!--android:checked="false"-->
+            <!--android:textOn="@string/measuring"-->
+            <!--android:textOff="@string/stopped"-->
+            <!--android:id="@+id/toggle"-->
             <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="25dp"-->
-            <!--android:padding="5dp"-->
-            <!--android:text="@string/gyroscope" />-->
+            <!--android:layout_height="300dp" />-->
 
-        <!--<com.jjoe64.graphview.GraphView-->
-            <!--android:id="@+id/gyrGraph"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="300dip"-->
-            <!--android:layout_weight="1" />-->
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/Heading"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:padding="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="@string/accelerometer" />&ndash;&gt;-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/Heading3"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="25dp"-->
-            <!--android:padding="5dp"-->
-            <!--android:text="@string/magnetometer" />-->
+        <!--&lt;!&ndash;<com.jjoe64.graphview.GraphView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/accGraph"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="300dip"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1" />&ndash;&gt;-->
 
-        <!--<com.jjoe64.graphview.GraphView-->
-            <!--android:id="@+id/magGraph"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="300dip"-->
-            <!--android:layout_weight="1" />-->
-    </LinearLayout>
-</ScrollView>
+        <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:orientation="vertical"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="300dip"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_weight="1"				&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/accGraph" />		&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/Heading2"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:padding="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="@string/gyroscope" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<com.jjoe64.graphview.GraphView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/gyrGraph"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="300dip"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/Heading3"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:padding="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="@string/magnetometer" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<com.jjoe64.graphview.GraphView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/magGraph"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="300dip"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="1" />&ndash;&gt;-->
+    <!--</LinearLayout>-->
+<!--</ScrollView>-->

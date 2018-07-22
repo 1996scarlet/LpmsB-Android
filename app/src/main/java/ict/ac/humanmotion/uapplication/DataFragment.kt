@@ -8,9 +8,18 @@ import android.view.ViewGroup
 import android.widget.ToggleButton
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.data_fragment.*
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
-class DataFragment : MyFragment() {
+class DataFragment : MyFragment(), Callback<String> {
+    override fun onResponse(call: Call<String>?, response: Response<String>?) =
+            println("Human Motion Data Uploaded")
 
+    override fun onFailure(call: Call<String>?, t: Throwable) = t.printStackTrace()
 
     private val TAG = "DataFragment"
     private val FRAGMENT_TAG = 2
@@ -18,6 +27,14 @@ class DataFragment : MyFragment() {
     private var resultList: MutableList<LpmsBData> = mutableListOf()
 
     override var myFragmentTag: Int = FRAGMENT_TAG
+
+    val resultService = Retrofit.Builder()
+            .client(OkHttpClient())
+            .baseUrl("http://192.168.0.2:23456/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build().create(UploadServer::class.java)
 
 //    private lateinit var accSeries0: LineGraphSeries<DataPoint>
 //    private lateinit var accSeries1: LineGraphSeries<DataPoint>
@@ -32,7 +49,7 @@ class DataFragment : MyFragment() {
 //    private lateinit var magSeries2: LineGraphSeries<DataPoint>
 //
 //    private var dataCount: Double = 0.0
-    //    private val MAX_DATA_POINT_NUM = 200
+//    private val MAX_DATA_POINT_NUM = 200
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.data_fragment, container, false)
@@ -40,7 +57,10 @@ class DataFragment : MyFragment() {
         rootView.findViewById<ToggleButton>(R.id.toggle).setOnCheckedChangeListener { compoundButton, isChecked ->
             if (!isChecked) {
                 Log.d(TAG, "Sending message to server!")
-                Log.d(TAG, Gson().toJson(resultList))
+//                Log.d(TAG, Gson().toJson(resultList))
+
+                resultService.postSave(Gson().toJson(resultList)).enqueue(this)
+//                resultService.postSave("123554").enqueue(this)
 
             } else {
                 resultList.clear()
@@ -159,8 +179,13 @@ class DataFragment : MyFragment() {
         return rootView
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-//    override fun getMyFragmentTag(): Int = FRAGMENT_TAG
+
+    }
+
+    //    override fun getMyFragmentTag(): Int = FRAGMENT_TAG
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted || !toggle.isChecked) return

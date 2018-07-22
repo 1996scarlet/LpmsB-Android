@@ -12,9 +12,9 @@ class LpmsBData {
     var linAcc = FloatArray(3)
     var pressure: Float = 0.toFloat()
 
-    internal constructor()
+     constructor()
 
-    internal constructor(d: LpmsBData) {
+     constructor(d: LpmsBData) {
         imuId = d.imuId
         timestamp = d.timestamp
         frameNumber = d.frameNumber
