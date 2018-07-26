@@ -16,7 +16,7 @@ class MoreDataFragment : MyFragment() {
 
     val ARG_SECTION_NUMBER = "section_number"
 
-    private val MAX_DATA_POINT_NUM = 200
+    private val MAX_DATA_POINT_NUM = 300
 
     private val FRAGMENT_TAG = 3
 

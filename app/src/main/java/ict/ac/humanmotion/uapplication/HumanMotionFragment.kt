@@ -38,6 +38,6 @@ class HumanMotionFragment : MyFragment() {
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted) return
-//        webView.loadUrl("javascript:getMag(${d.mag[0]},${d.mag[1]},${d.mag[2]})")
+        webView.loadUrl("javascript:getMag(${d.mag[0]},${d.mag[1]},${d.mag[2]})")
     }
 }

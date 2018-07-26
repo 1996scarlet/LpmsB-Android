@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ToggleButton
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.data_fragment.*
+import kotlinx.android.synthetic.main.upload_fragment.*
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,17 +60,18 @@ class ThreeDeeCubeFragment : MyFragment(), Callback<String> {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.data_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.upload_fragment, container, false)
 
         rootView.findViewById<ToggleButton>(R.id.toggle).setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (text_motion.text.isNullOrEmpty()) return@setOnCheckedChangeListener
+
             if (!isChecked) {
                 Log.d(TAG, "Sending message to server!")
-
-                resultService.postSave(Gson().toJson(resultList)).enqueue(this)
+                resultService.postSave(text_motion.text.toString(), Gson().toJson(
+                        resultList.map { SVMDataBean(it.gyr[0], it.gyr[1], it.gyr[2], it.quat[0], it.quat[1], it.quat[2], it.quat[3]) })).enqueue(this)
 
             } else {
                 resultList.clear()
-                Log.d(TAG, "Measuring data from lpms!")
             }
         }
 
@@ -79,7 +80,7 @@ class ThreeDeeCubeFragment : MyFragment(), Callback<String> {
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted || !toggle.isChecked) return
-
+        Log.d(TAG, "Measuring data from lpms!")
         resultList.add(d)
     }
 }
