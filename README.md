@@ -16,6 +16,10 @@ So I wrote a new open source demo.
 > 0.   Please give this app bluetooth permission
 > 1.   You may need to pair Lpms-B before open the app
 
+## How to Build a Motion Identification System
+This diagram is a dead-simple which described how to build an easy motion identification system.
+![Diagram](imgs/diagram.png)
+
 ## Flask Server Example
 
     from flask import Flask
