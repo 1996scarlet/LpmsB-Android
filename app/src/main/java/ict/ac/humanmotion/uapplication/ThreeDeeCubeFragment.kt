@@ -45,8 +45,24 @@ class ThreeDeeCubeFragment : MyFragment(), Callback<String> {
 //
 //        glView.requestRender()
 //    }
+
+    var biasG0 = 0f
+    var biasG1 = 0f
+    var biasG2 = 0f
+    //    var biasQ0 = 0f
+//    var biasQ1 = 0f
+//    var biasQ2 = 0f
+//    var biasQ3 = 0f
+    var biasL0 = 0f
+    var biasL1 = 0f
+    var biasL2 = 0f
+
+    var biasA0 = 0f
+    var biasA1 = 0f
+    var biasA2 = 0f
+
     override fun onResponse(call: Call<String>?, response: Response<String>?) =
-            println("Human Motion Data Uploaded")
+            println("Human Motion Data Uploaded:${response?.body()}")
 
     override fun onFailure(call: Call<String>?, t: Throwable) = t.printStackTrace()
 
@@ -68,7 +84,19 @@ class ThreeDeeCubeFragment : MyFragment(), Callback<String> {
             if (!isChecked) {
                 Log.d(TAG, "Sending message to server!")
                 resultService.postSave(text_motion.text.toString(), Gson().toJson(
-                        resultList.map { SVMDataBean(it.gyr[0], it.gyr[1], it.gyr[2], it.quat[0], it.quat[1], it.quat[2], it.quat[3]) })).enqueue(this)
+                        resultList.map {
+                            SVMDataBean(it.gyr[0] - biasG0,
+                                    it.gyr[1] - biasG1,
+                                    it.gyr[2] - biasG2,
+                                    it.linAcc[0] - biasL0,
+                                    it.linAcc[1] - biasL1,
+                                    it.linAcc[2] - biasL2,
+                                    it.acc[0] - biasA0,
+                                    it.acc[1] - biasA1,
+                                    it.acc[2] - biasA2
+//                                    it.quat[3] - biasQ3
+                            )
+                        })).enqueue(this)
 
             } else {
                 resultList.clear()
@@ -80,6 +108,26 @@ class ThreeDeeCubeFragment : MyFragment(), Callback<String> {
 
     override fun updateView(d: LpmsBData, s: ImuStatus) {
         if (!s.measurementStarted || !toggle.isChecked) return
+
+        if (resultList.isEmpty()) {
+            biasG0 = d.gyr[0]
+            biasG1 = d.gyr[1]
+            biasG2 = d.gyr[2]
+
+            biasL0 = d.linAcc[0]
+            biasL1 = d.linAcc[1]
+            biasL2 = d.linAcc[2]
+
+            biasA0 = d.acc[0]
+            biasA1 = d.acc[1]
+            biasA2 = d.acc[2]
+
+//            biasQ0 = d.quat[0]
+//            biasQ1 = d.quat[1]
+//            biasQ2 = d.quat[2]
+//            biasQ3 = d.quat[3]
+        }
+
         Log.d(TAG, "Measuring data from lpms!")
         resultList.add(d)
     }

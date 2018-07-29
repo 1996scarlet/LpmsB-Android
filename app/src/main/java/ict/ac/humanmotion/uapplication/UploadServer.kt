@@ -11,4 +11,8 @@ interface UploadServer {
     @FormUrlEncoded
     @POST("save/{label}")
     fun postSave(@Path("label") label: String, @Field("result") str: String): Call<String>
+
+    @FormUrlEncoded
+    @POST("predict")
+    fun postPredict(@Field("content") str: String): Call<String>
 }

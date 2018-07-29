@@ -15,7 +15,8 @@ class AppSectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         1 -> ThreeDeeCubeFragment()
 
-        4 -> HumanMotionFragment()
+//        4 -> HumanMotionFragment()
+        4 -> CurrentStateFragment()
 
         else -> DataFragment()
     }
@@ -31,7 +32,8 @@ class AppSectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         1 -> "3D Cube"
 
-        4 -> "Human Motion"
+//        4 -> "Human Motion"
+        4 -> "State"
 
         else -> "null"
     }
