@@ -273,8 +273,9 @@ public class LpmsBMainActivity extends FragmentActivity implements ActionBar.Tab
                 if (address.equals(e.getAddress())) {
                     lpmsB = e;
                     Log.e("lpms", "[LpmsBMainActivity] In main activity: " + lpmsB.getAddress());
-                    DataFragment dataFragment = (DataFragment) getSupportFragmentManager().findFragmentByTag(mFragmentMap.get(2));
-                    if (dataFragment != null) dataFragment.clearView();
+//                    DataFragment dataFragment = (DataFragment) getSupportFragmentManager().findFragmentByTag(mFragmentMap.get(2));
+                    CurrentStateFragment dataFragment = (CurrentStateFragment) getSupportFragmentManager().findFragmentByTag(mFragmentMap.get(2));
+//                    if (dataFragment != null) dataFragment.clearView();
 
                     return;
                 }
