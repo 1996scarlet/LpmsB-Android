@@ -22,18 +22,20 @@ This diagram is a dead-simple which described how to build an easy motion identi
 
 ## Flask Server Example
 
-    from flask import Flask
-    from flask import request
+```python
+from flask import Flask
+from flask import request
 
-    app = Flask(__name__)
+app = Flask(__name__)
 
-    @app.route('/save', methods=['POST'])
-    def save():
-        print (request.form.get('result','OKK'))
-        return request.form.get('result','OKK')
+@app.route('/save', methods=['POST'])
+def save():
+    print (request.form.get('result','OKK'))
+    return request.form.get('result','OKK')
 
-    if __name__ == '__main__':
-        app.run(port=23456, host='192.168.0.2')
+if __name__ == '__main__':
+    app.run(port=23456, host='192.168.0.2')
+```
 
 ## Response Data Type
 * In Android source code, we use Kotlin `MutableList<LpmsData>` to save temp result.
